@@ -1,3 +1,5 @@
+package Logic;
+
 public class MultiNumberOperations {
     public String calculate(String quat1, String operand, String quat2){
         Conversions converter = new Conversions();

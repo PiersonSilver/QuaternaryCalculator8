@@ -1,3 +1,5 @@
+package Logic;
+
 public class Conversions {
     public String decToQuat(int dec){
         StringBuilder converted = new StringBuilder();
