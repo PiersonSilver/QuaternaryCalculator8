@@ -21,7 +21,7 @@ Task Distribution
 - Pierson Silver = Operator Class and Logic
 
 # Meeting 2: 9/3/2024
-Got together in class
+Got together in class   
 Attendees
 - Caleb Reyes
 - Edgar Arvizu
