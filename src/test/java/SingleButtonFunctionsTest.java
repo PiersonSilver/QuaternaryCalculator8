@@ -10,4 +10,10 @@ public class SingleButtonFunctionsTest {
         int num1 = 4;
         Assertions.assertEquals(2, test.squareroot(num1));
     }
+
+    @Test
+    public void squaredTest(){
+        int num1 = 4;
+        Assertions.assertEquals(16, test.squared(num1));
+    }
 }
