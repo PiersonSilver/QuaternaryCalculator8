@@ -8,4 +8,9 @@ public class SingleButtonFunctions {
 
     }
 
+    public int squared(int num1){
+        double double1 = Math.pow(num1, 2);
+        return (int)double1;
+    }
+
 }
