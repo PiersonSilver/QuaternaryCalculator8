@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Gui implements ActionListener{
 
@@ -59,61 +60,77 @@ public class Gui implements ActionListener{
     Conversions conversions = new Conversions();
     MultiNumberOperations multi = new MultiNumberOperations();
     SingleButtonFunctions single = new SingleButtonFunctions();
+
     boolean quat = true;
-    ArrayList<String> calculationValues = new ArrayList<>();
+
+    String[] equation = {"","","",""};
+    int equationLoc = 0;
+
     @Override
     public void actionPerformed(ActionEvent e) {
         for(JButton b: buttons){
             if(b==e.getSource()){
                 String value = text.getText();
-                if(!quat && !b.getText().equals("quat")){
-                    value = conversions.decToQuat(Integer.parseInt(value));
-                    buttons.getLast().setText("dec");
-                    quat = true;
-                }
                 switch(b.getText()){
-                    case "+":
-                    case "-":
-                    case "*":
-                    case "/":
-                        calculationValues.add(value);
-                        calculationValues.add(b.getText());
-                        reset = true;
+                    case "+","-","*","/":
+                        if(equationLoc<=1) {
+                            if (equationLoc == 0) equationLoc++;
+                            equation[1] = b.getText();
+                        }
                         break;
 
-                    case "sqr":
-                    case "root":
-                        text.setText(single.calculate(value, b.getText()));
+                    case "sqr","root":
+                        if(equationLoc==0){
+                            equation[1]=b.getText();
+                            equation[3]=single.calculate(equation[0],b.getText());
+                            equationLoc=3;
+                        }
                         reset=true;
                         break;
 
 
                     case "=":
-                        String result = multi.calculate(calculationValues.get(0), calculationValues.get(1), value);
-                        text.setText(result);
-                        calculationValues.clear();
-                        reset=true;
+                        if(equationLoc==2) {
+                            equation[3]=multi.calculate(equation[0],equation[1],equation[2]);
+                            equationLoc++;
+                            reset = true;
+                        }
                         break;
 
                     case "dec":
                         b.setText("quat");
                         quat = false;
-                        text.setText(String.valueOf(conversions.quatToDec(text.getText())));
                         break;
 
                     case "quat":
                         b.setText("dec");
                         quat = true;
-                        text.setText(conversions.decToQuat(Integer.parseInt(text.getText())));
                         break;
 
                     default:
                         if(reset){
+                            equationLoc=0;
+                            equation=new String[]{"","","",""};
                             text.setText(b.getText());
                             reset=false;
-                        }else text.setText(text.getText() + b.getText());
-
+                        }else {
+                            if(equationLoc==0){
+                                equation[equationLoc]+=b.getText();
+                            }else if(equationLoc<=2){
+                                if(equationLoc==1) equationLoc++;
+                                equation[2]+=b.getText();
+                            }
+                        }
                         break;
+                }
+                if(quat){
+                    text.setText(equation[0]+equation[1]+equation[2]+"="+equation[3]);
+                }else{
+                    String disp = equation[1];
+                    if(!equation[0].isEmpty()) disp = conversions.quatToDec(equation[0])+disp;
+                    if(!equation[2].isEmpty()) disp = disp+conversions.quatToDec(equation[2]);
+                    if(!equation[3].isEmpty()) disp = disp+"="+conversions.quatToDec(equation[3]);
+                    text.setText(disp);
                 }
                 break;
             }
