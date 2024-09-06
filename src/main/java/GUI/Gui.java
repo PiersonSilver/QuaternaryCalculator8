@@ -65,16 +65,17 @@ public class Gui implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         for(JButton b: buttons){
             if(b==e.getSource()){
-                String value;
+                String value = text.getText();
+                if(!quat && !b.getText().equals("quat")){
+                    value = conversions.decToQuat(Integer.parseInt(value));
+                    buttons.getLast().setText("dec");
+                    quat = true;
+                }
                 switch(b.getText()){
                     case "+":
                     case "-":
                     case "*":
                     case "/":
-                        value = text.getText();
-                        if(!quat){
-                            value = conversions.decToQuat(Integer.parseInt(value));
-                        }
                         calculationValues.add(value);
                         calculationValues.add(b.getText());
                         reset = true;
@@ -82,20 +83,12 @@ public class Gui implements ActionListener{
 
                     case "sqr":
                     case "root":
-                        value = text.getText();
-                        if(!quat){
-                            value = conversions.decToQuat(Integer.parseInt(value));
-                        }
                         text.setText(single.calculate(value, b.getText()));
                         reset=true;
                         break;
 
 
                     case "=":
-                        value = text.getText();
-                        if(!quat){
-                            value = conversions.decToQuat(Integer.parseInt(value));
-                        }
                         String result = multi.calculate(calculationValues.get(0), calculationValues.get(1), value);
                         text.setText(result);
                         calculationValues.clear();
@@ -110,6 +103,7 @@ public class Gui implements ActionListener{
 
                     case "quat":
                         b.setText("dec");
+                        quat = true;
                         text.setText(conversions.decToQuat(Integer.parseInt(text.getText())));
                         break;
 
