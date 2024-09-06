@@ -6,14 +6,14 @@ public class SingleButtonFunctionsTest {
     SingleButtonFunctions test = new SingleButtonFunctions();
 
     @Test
-    public void squarerootTest(){
-        int num1 = 4;
-        Assertions.assertEquals(2, test.squareroot(num1));
+    public void squareRootTest(){
+        String quat = "21";//9
+        Assertions.assertEquals("3" /*4*/, test.calculate(quat, "root"));
     }
 
     @Test
     public void squaredTest(){
-        int num1 = 4;
-        Assertions.assertEquals(16, test.squared(num1));
+        String quat = "11";//5
+        Assertions.assertEquals("121" /*25*/, test.calculate(quat, "sqr"));
     }
 }

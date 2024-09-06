@@ -1,7 +1,5 @@
-import src.gui.Gui;
+import GUI.Gui;
 
 public class Main {
-    public static void main(String[] args) {
-        src.gui.Gui gui = new Gui();
-    }
+    public static void main(String[] args) {new Gui();}
 }

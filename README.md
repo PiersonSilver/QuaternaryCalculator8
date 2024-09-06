@@ -15,10 +15,10 @@ We discussed [README.md](README.md), what the roles will be of the project. We d
 Unit tests are going to be written individually based on what bullet points you took to write. We also established a repository to commit our work too.
 
 Task Distribution  
-- Caleb Reyes = Conversion from Quaternary to Decimal and Square and Square root functionality
+- Caleb Reyes = Square and Square root functionality
 - Antone Thyge = GUI implementation
 - Edgar Arvizu and Tanner Bauserman = Test cases
-- Pierson Silver = Operator Class and Logic
+- Pierson Silver = Conversion and Multi Number Calculations Classes and Logic Implementation
 
 # Meeting 2: 9/3/2024
 Got together in class   

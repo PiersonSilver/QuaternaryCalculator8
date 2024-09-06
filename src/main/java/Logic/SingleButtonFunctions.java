@@ -1,16 +1,15 @@
 package Logic;
 
 public class SingleButtonFunctions {
-
-    public int squareroot(int num1){
-        double double1 = Math.sqrt(num1);
-        return (int)double1;
-
-    }
-
-    public int squared(int num1){
-        double double1 = Math.pow(num1, 2);
-        return (int)double1;
+    Conversions conversions = new Conversions();
+    public String calculate(String quat1, String operand){
+        int num1 = conversions.quatToDec(quat1);
+        int result = switch(operand){
+            case "root" -> (int)Math.sqrt(num1);
+            case "sqr" -> (int)Math.pow(num1, 2);
+            default -> 0;
+        };
+        return conversions.decToQuat(result);
     }
 
 }

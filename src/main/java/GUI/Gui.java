@@ -1,4 +1,7 @@
-package src.gui;
+package GUI;
+import Logic.Conversions;
+import Logic.MultiNumberOperations;
+import Logic.SingleButtonFunctions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +30,7 @@ public class Gui implements ActionListener{
         frame.setSize(450,500);
         frame.setLayout(null);
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 
@@ -52,50 +56,63 @@ public class Gui implements ActionListener{
         }
     }
 
-    //todo: integrate converter and calculator code
-    String getCalculations(String string){
-        String[] ops = {"+","-","*","/"};
-        String val = "";
-        for(String s: ops){
-            if(string.contains(s)){
-                val = string.substring(0,string.indexOf(s))+string.substring(string.indexOf(s)+1);
-                break;
-            }
-        }
-        return val;
-    }
-
-
-
-    //todo: integrate calculator functions
+    Conversions conversions = new Conversions();
+    MultiNumberOperations multi = new MultiNumberOperations();
+    SingleButtonFunctions single = new SingleButtonFunctions();
+    boolean quat = true;
+    ArrayList<String> calculationValues = new ArrayList<>();
     @Override
     public void actionPerformed(ActionEvent e) {
         for(JButton b: buttons){
             if(b==e.getSource()){
+                String value;
                 switch(b.getText()){
-                    case "=":
-                        text.setText(text.getText()+"="+getCalculations(text.getText()));
-                        reset=true;
+                    case "+":
+                    case "-":
+                    case "*":
+                    case "/":
+                        value = text.getText();
+                        if(!quat){
+                            value = conversions.decToQuat(Integer.parseInt(value));
+                        }
+                        calculationValues.add(value);
+                        calculationValues.add(b.getText());
+                        reset = true;
                         break;
+
                     case "sqr":
-                        text.setText(text.getText()+"="+"to be implemented");
+                    case "root":
+                        value = text.getText();
+                        if(!quat){
+                            value = conversions.decToQuat(Integer.parseInt(value));
+                        }
+                        text.setText(single.calculate(value, b.getText()));
                         reset=true;
                         break;
 
-                    case "root":
-                        text.setText(text.getText()+"="+"to be implemented");
+
+                    case "=":
+                        value = text.getText();
+                        if(!quat){
+                            value = conversions.decToQuat(Integer.parseInt(value));
+                        }
+                        String result = multi.calculate(calculationValues.get(0), calculationValues.get(1), value);
+                        text.setText(result);
+                        calculationValues.clear();
                         reset=true;
                         break;
 
                     case "dec":
                         b.setText("quat");
-                        text.setText("to be implemented");
+                        quat = false;
+                        text.setText(String.valueOf(conversions.quatToDec(text.getText())));
                         break;
 
                     case "quat":
                         b.setText("dec");
-                        text.setText("to be implemented");
+                        text.setText(conversions.decToQuat(Integer.parseInt(text.getText())));
                         break;
+
                     default:
                         if(reset){
                             text.setText(b.getText());
